@@ -8,11 +8,20 @@
   let stage:createjs.Stage;
   let helloLabel: objects.Label;
   let clickMeButton: objects.Button;
+  let assetManager: createjs.LoadQueue;
+  let assetManifest: any[];
 
+  assetManifest = [
+    {id: "clickMeButton", src:"./Assets/images/clickMeButton.png"}
+  ];
+
+  // preloads assets
   function Init():void {
     console.log("Initialization Started...");
-
-    Start();
+    assetManager = new createjs.LoadQueue(); // creates the assetManager object
+    assetManager.installPlugin(createjs.Sound); // asset manager can also load sounds
+    assetManager.loadManifest(assetManifest);
+    assetManager.on("complete", Start, this);
   }
 
   function Start():void {
@@ -39,13 +48,11 @@
   function Main():void {
     console.log("Game Started...");
 
-    helloLabel = new objects.Label("Hello, World!", "40px", 
+    helloLabel = new objects.Label("Hello, World!", "40px",
     "Consolas", "#000000", 320, 240, true);
     stage.addChild(helloLabel);
 
-    clickMeButton = new objects.Button("./Assets/images/clickMeButton.png", 320, 340);
-    clickMeButton.regX = clickMeButton.getBounds().width * 0.5;
-    clickMeButton.regY = clickMeButton.getBounds().height * 0.5;
+    clickMeButton = new objects.Button(assetManager, "clickMeButton", 320, 340);
     stage.addChild(clickMeButton);
     clickMeButton.on("click", clickMeButtonClick);
 
