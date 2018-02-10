@@ -9,6 +9,8 @@ module scenes {
     // Constructor
     constructor(assetManager: createjs.LoadQueue) {
       super(assetManager);
+
+      this.Start();
     }
 
     // Private Mathods
@@ -25,8 +27,9 @@ module scenes {
       this._startButton = new objects.Button(this.assetManager, "startButton", 320, 300);
     }
 
-    public Update(): void {
+    public Update(): number {
 
+      return objects.Game.currentScene;
     }
 
     // This is where the fun happens
